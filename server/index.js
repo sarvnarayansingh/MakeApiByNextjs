@@ -33,10 +33,10 @@ app.prepare().then(() => {
         const {email,password} = req.body;
         const userData = await authenticate(email,password)
         if(!userData){
-            return res.status(403).send(res.json({
+            return res.status(403).send({
                 code:400,
                 status:"fail"
-            }))
+            })
         }
         res.json({
             code:200,
