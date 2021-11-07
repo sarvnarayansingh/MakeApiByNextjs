@@ -15,8 +15,8 @@ const LoginForms = () => {
     }
     return(
         <form>
-            <div><input type="text" name="email" placeholder="email" value={state.email} onChange = {(e) =>onChangeHandler(e) } /></div>
-            <div><input type="text" name="password"  placeholder="password" value={state.password} onChange = {(e) =>onChangeHandler(e) } /></div>
+            <div><input type="email" name="email" placeholder="email" value={state.email} onChange = {(e) =>onChangeHandler(e) } /></div>
+            <div><input type="password" name="password"  placeholder="password" value={state.password} onChange = {(e) =>onChangeHandler(e) } /></div>
             <button type="submit"  onClick ={(event)=>handleSubmit(event)}>submit</button>
         </form>
     )
