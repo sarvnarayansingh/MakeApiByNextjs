@@ -10,14 +10,19 @@ const handle = app.getRequestHandler()
 
 
 const COOKIES_SECRET = "asdfgh"
+const COOKIES_OPTION = {
+    httpOnly:true,
+    secure:!dev,
+    signed:true
+}
 
+// part of LoginApi so hence check userdata and password)
 const authenticate = async(email,password)=>{
     const {data}= await axios.get("https://jsonplaceholder.typicode.com/users")
     return data.find((user)=>{
         if(user.email === email && user.website===password)
         return user
     })
-
 }
 
 app.prepare().then(() => {
@@ -28,7 +33,7 @@ app.prepare().then(() => {
     //middleware end
 
 
-
+    // login Api Start
     server.post('/api/login',async(req,res) => {
         const {email,password} = req.body;
         const userData = await authenticate(email,password)
@@ -38,13 +43,16 @@ app.prepare().then(() => {
                 status:"fail"
             })
         }
-        res.json({
+        const user = {
             code:200,
             name:userData.name,
             email:userData.email,
             status:"success"
-        })
+        }
+        res.cookie('token',user,COOKIES_OPTION) // cookies set
+        res.json(user) // data response when success
     })
+     // login Api End
 
     server.get('*',(req,res)=>{
         return handle(req,res)
