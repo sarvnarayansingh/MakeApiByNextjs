@@ -10,7 +10,6 @@ const ProfileData = () => {
     useEffect(() => {
         profileUserData().then(user=>setUserData(user))
     }, [])
-    console.log("data",userData)
 
     return(
         <div>

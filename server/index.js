@@ -40,7 +40,8 @@ app.prepare().then(() => {
         if(!userData){
             return res.status(403).send({
                 code:400,
-                status:"fail"
+                status:"fail",
+                message:'something went wrong'
             })
         }
         const user = {
@@ -60,7 +61,6 @@ app.prepare().then(() => {
           const {signedCookies={}}=req
           const {token}= signedCookies
           if(token&&token.email){
-            console.log(token)
             const {data}= await axios.get("https://jsonplaceholder.typicode.com/users")
             const userprofile = data.find(user=> user.email === token.email)
                 return res.json({user:userprofile})
