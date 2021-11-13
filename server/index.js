@@ -8,7 +8,7 @@ const port = process.env.PORT || 4001;
 const app = next({dev});
 const handle = app.getRequestHandler()
 
-
+const AUTH_DATA_TYPE = 'authentication'
 const COOKIES_SECRET = "asdfgh"
 const COOKIES_OPTION = {
     httpOnly:true,
@@ -47,12 +47,26 @@ app.prepare().then(() => {
             code:200,
             name:userData.name,
             email:userData.email,
-            status:"success"
+            status:"success",
+            type:AUTH_DATA_TYPE
         }
         res.cookie('token',user,COOKIES_OPTION) // cookies set
         res.json(user) // data response when success
     })
      // login Api End
+
+      // profile Api Start
+      server.get('/api/profile', async(req,res) => {
+          const {signedCookies={}}=req
+          const {token}= signedCookies
+          if(token&&token.email){
+            console.log(token)
+            const {data}= await axios.get("https://jsonplaceholder.typicode.com/users")
+            const userprofile = data.find(user=> user.email === token.email)
+                return res.json({user:userprofile})
+          }
+          res.sendStatus(404)
+      })
 
     server.get('*',(req,res)=>{
         return handle(req,res)

@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import {loginUser} from '../lib/auth'
+import Router from 'next/router'
 
 const LoginForms = () => {
     const [state,setState] = useState({email:'Shanna@melissa.tv',password:'anastasia.net'})
@@ -8,10 +9,11 @@ const LoginForms = () => {
         setState({...state,[e.target.name]:e.target.value})
 
     }
+    
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        loginUser(state.email,state.password)
+        loginUser(state.email,state.password).then(()=>Router.push('/profile'))
     }
     return(
         <form>
